@@ -21,10 +21,13 @@ services:
     stdin_open: true
     volumes:
       - .:/workspace
-      - home-data:/home/agent
+      - gemini-data:/home/agent/.gemini
+      - config-data:/home/agent/.config
     working_dir: /workspace
     post_start:
-      - command: bash -c '[[ -d /home/agent/.antigravity ]] || rsync -au /opt/antigravity/ /home/agent/'
+      - command: bash -c '[[ "$(stat -c "%U:%G" /home/agent/.gemini)" != "root:root" ]] || chown agent:agent /home/agent/.gemini'
+        user: root
+      - command: bash -c '[[ "$(stat -c "%U:%G" /home/agent/.config)" != "root:root" ]] || chown agent:agent /home/agent/.config'
         user: root
       - command: git config --global --add safe.directory /workspace
         user: agent
@@ -34,4 +37,5 @@ services:
       - -lc
       - 'agy'
 volumes:
-  home-data:
+  gemini-data:
+  config-data:

@@ -57,10 +57,6 @@ RUN \
       && chmod +x /usr/local/bin/antigravity.install.sh
 
 RUN \
-      mkdir -p /opt/antigravity \
-      && chown "${USER_UID}:${USER_GID}" /opt/antigravity
-
-RUN \
       groupadd --gid "${USER_GID}" "${USER_NAME}" \
       && useradd --uid "${USER_UID}" --gid "${USER_GID}" --shell /usr/bin/zsh --create-home "${USER_NAME}"
 
@@ -101,9 +97,6 @@ RUN \
       && git config --global push.default matching \
       && git config --global user.name "${USER_NAME}" \
       && git config --global user.email "${USER_NAME}@localhost"
-
-RUN \
-      rsync -a "${HOME}/" /opt/antigravity/
 
 ENTRYPOINT ["agy"]
 CMD ["--help"]
