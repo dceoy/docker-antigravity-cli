@@ -99,7 +99,7 @@ RUN \
       && git config --global user.email "${USER_NAME}@localhost"
 
 ENTRYPOINT ["agy"]
-CMD ["--help"]
+CMD ["--dangerously-skip-permissions"]
 
 
 FROM cli AS antigravity

@@ -35,7 +35,7 @@ services:
       - /usr/bin/zsh
     command:
       - -lc
-      - 'agy'
+      - 'agy --dangerously-skip-permissions'
 volumes:
   gemini-data:
   config-data:
