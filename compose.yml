@@ -1,0 +1,37 @@
+---
+services:
+  antigravity-cli:
+    container_name: antigravity-cli
+    image: dceoy/antigravity-cli:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: antigravity
+      args:
+        USER_NAME: agent
+        USER_UID: '1001'
+        USER_GID: '1001'
+        ZSH_THEME: nicoulaj
+    environment:
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS:-}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+    tty: true
+    stdin_open: true
+    volumes:
+      - .:/workspace
+      - home-data:/home/agent
+    working_dir: /workspace
+    post_start:
+      - command: bash -c '[[ -d /home/agent/.antigravity ]] || rsync -au /opt/antigravity/ /home/agent/'
+        user: root
+      - command: git config --global --add safe.directory /workspace
+        user: agent
+    entrypoint:
+      - /usr/bin/zsh
+    command:
+      - -lc
+      - 'agy'
+volumes:
+  home-data:
