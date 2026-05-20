@@ -22,26 +22,18 @@ This repository provides a Docker Compose workflow that:
 ## Prerequisites
 
 - [Docker](https://docs.docker.com/get-docker/) with the Compose plugin
-- A valid Google credential — one of:
-  - `GEMINI_API_KEY`
-  - `GOOGLE_API_KEY`
-  - `GOOGLE_APPLICATION_CREDENTIALS` (path to a service-account JSON file)
+- A Google account (sign-in happens interactively on first launch — see
+  [Authentication](#authentication) below)
 
 ## Quick start
 
-1. Export your Google credentials:
-
-   ```bash
-   export GEMINI_API_KEY=your_key_here
-   ```
-
-2. Build the image:
+1. Build the image:
 
    ```bash
    docker compose build
    ```
 
-3. Start an interactive Antigravity CLI session:
+2. Start an interactive Antigravity CLI session:
 
    ```bash
    docker compose run --rm antigravity-cli
@@ -52,6 +44,16 @@ This repository provides a Docker Compose workflow that:
    ```bash
    zsh -lc 'agy --dangerously-skip-permissions'
    ```
+
+## Authentication
+
+`agy` authenticates via Google Sign-In, falling back to the system keyring for
+subsequent sessions. Inside the container, the SSH/headless flow is used: on
+first launch, `agy` prints an authorization URL — open it on your local
+machine, complete the sign-in, and the CLI captures the resulting token.
+Tokens are persisted in `/home/agent/.config` via the `config-data` Docker
+volume, so you only need to sign in once per volume lifetime. Run `/logout`
+from inside `agy` to clear saved credentials.
 
 ## Common commands
 
@@ -75,10 +77,10 @@ docker compose run --rm antigravity-cli -lc 'git status'
 
 | Variable | Required | Description |
 |---|---|---|
-| `GEMINI_API_KEY` | One of these three | Authenticate with the Gemini API |
-| `GOOGLE_API_KEY` | One of these three | Alternative Google API key |
-| `GOOGLE_APPLICATION_CREDENTIALS` | One of these three | Path to a service-account JSON file for ADC |
-| `GITHUB_TOKEN` | No | Authenticate `gh` CLI operations |
+| `GITHUB_TOKEN` | No | Authenticate `gh` CLI operations inside the container |
+
+`agy` itself does not read API-key environment variables; it relies on OAuth
+via the system keyring. See [Authentication](#authentication).
 
 ## Related projects
 

@@ -68,19 +68,17 @@ Run local QA before opening a pull request.
 ## Security
 
 - **Never commit API keys or tokens.** Supply credentials exclusively through
-  environment variables at runtime (see `compose.yml` for the supported set).
-- The following secrets are consumed from the host environment and forwarded
+  environment variables at runtime or interactive sign-in.
+- `agy` authenticates via Google Sign-In (OAuth) and stores tokens in the
+  system keyring — it does **not** read API-key environment variables.
+  On first launch inside the container, `agy` prints an authorization URL to
+  complete in a browser on your local machine.
+- The following secret is consumed from the host environment and forwarded
   into the container:
 
   | Variable | Purpose |
   |---|---|
-  | `GEMINI_API_KEY` | Authenticate with the Gemini API |
-  | `GOOGLE_API_KEY` | Alternative Google API key |
-  | `GOOGLE_APPLICATION_CREDENTIALS` | Path to a service-account JSON file for ADC |
-  | `GITHUB_TOKEN` | Authenticate `gh` CLI operations |
-
-- Only one of `GEMINI_API_KEY`, `GOOGLE_API_KEY`, or
-  `GOOGLE_APPLICATION_CREDENTIALS` is required; the others may be left unset.
+  | `GITHUB_TOKEN` | Authenticate `gh` CLI operations inside the container |
 
 ## Contribution guidelines
 
