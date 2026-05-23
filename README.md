@@ -81,7 +81,3 @@ docker compose run --rm antigravity-cli -lc 'git status'
 
 `agy` itself does not read API-key environment variables; it relies on OAuth
 via the system keyring. See [Authentication](#authentication).
-
-## Related projects
-
-- [dceoy/docker-copilot-cli](https://github.com/dceoy/docker-copilot-cli) — the same Docker Compose pattern for GitHub Copilot CLI
