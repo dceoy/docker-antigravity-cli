@@ -21,6 +21,8 @@ on:
           - build
         description: Choose the workflow to run
         default: lint-and-scan
+permissions:
+  contents: read
 jobs:
   docker-lint-and-scan:
     if: >
