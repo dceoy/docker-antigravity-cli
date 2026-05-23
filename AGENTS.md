@@ -8,7 +8,7 @@ This repository provides a Docker Compose workflow for running
 [Antigravity CLI](https://antigravity.google/docs/cli-overview) (`agy`) — Google's
 AI-powered coding assistant — inside an isolated, reproducible container.
 The container runs as a non-root `agent` user, mounts the current repository at
-`/workspace`, and persists Gemini and application state in named Docker volumes.
+`/workspace`, and persists Antigravity CLI and application state in named Docker volumes.
 
 ## Repository structure
 
@@ -76,13 +76,13 @@ Run local QA before opening a pull request.
 - The following secret is consumed from the host environment and forwarded
   into the container:
 
-  | Variable | Purpose |
-  |---|---|
+  | Variable       | Purpose                                               |
+  | -------------- | ----------------------------------------------------- |
   | `GITHUB_TOKEN` | Authenticate `gh` CLI operations inside the container |
 
 ## Contribution guidelines
 
-- Write clear, descriptive commit messages explaining *why* a change was made.
+- Write clear, descriptive commit messages explaining _why_ a change was made.
 - Reference related issues or pull requests in the PR description.
 - Document the local validation steps you ran (build, smoke test, QA) in the
   PR body.
